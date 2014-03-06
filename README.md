@@ -1,4 +1,5 @@
 guice_servlet
 =============
 
-急にServletでGuiceを使うプロジェクトが来たので
+ServletでGoogle Guiceを使うサンプルプロジェクト.
+
