@@ -6,21 +6,29 @@
 	<packaging>war</packaging>
 	<version>1.0-SNAPSHOT</version>
 	<name>guice_servlet</name>
-	<url>http://maven.apache.org</url>
+	
+	<properties>
+		<junit.version>4.11</junit.version>
+		<mockito.version>1.9.5</mockito.version>
+		<guice.version>3.0</guice.version>
+		<jetty.version>8.1.14.v20131031</jetty.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+	
 	<dependencies>
 
 		<!-- TEST DEPENDENCIES -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.11</version>
+			<version>${junit.version}</version>
 			<scope>test</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-all</artifactId>
-			<version>1.8.4</version>
+			<version>${mockito.version}</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -28,14 +36,14 @@
 		<dependency>
 			<groupId>com.google.inject.extensions</groupId>
 			<artifactId>guice-servlet</artifactId>
-			<version>3.0</version>
+			<version>${guice.version}</version>
 		</dependency>
 
-		<!-- TOMCAT DEPENDENCIES -->
+		<!--  JETTY DEPENDENCIES FOR TESTING  -->
 		<dependency>
-			<groupId>org.apache.tomcat</groupId>
-			<artifactId>tomcat-catalina</artifactId>
-			<version>7.0.52</version>
+			<groupId>org.eclipse.jetty.aggregate</groupId>
+			<artifactId>jetty-all-server</artifactId>
+			<version>${jetty.version}</version>
 			<scope>provided</scope>
 		</dependency>
 
@@ -67,17 +75,10 @@
 							<port>8080</port>
 							<maxIdleTime>3600000</maxIdleTime>
 						</connector>
-						<connector implementation="org.eclipse.jetty.server.ssl.SslSocketConnector">
-							<port>8443</port>
-							<maxIdleTime>3600000</maxIdleTime>
-							<keystore>${project.build.directory}/test-classes/keystore</keystore>
-							<password>wicket</password>
-							<keyPassword>wicket</keyPassword>
-						</connector>
 					</connectors>
 					<scanIntervalSeconds>1</scanIntervalSeconds>
 					<webApp>
-						<contextPath>/communiteer</contextPath>
+						<contextPath>/guice_servlet</contextPath>
 					</webApp>
 				</configuration>
 			</plugin>
