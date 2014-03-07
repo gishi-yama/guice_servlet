@@ -9,6 +9,8 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,14 +30,15 @@ public class FooServletTest {
 
 	private HttpServletRequest req;
 	private HttpServletResponse res;
-	private Injector injector;
+	private ServletConfig config;
 
 	@Before
 	public void setUp() throws Exception {
 		req = mock(HttpServletRequest.class);
 		res = mock(HttpServletResponse.class);
 		when(res.getWriter()).thenReturn(new PrintWriter(output));
-		injector = Guice.createInjector(new AbstractModule() {
+
+		Injector injector = Guice.createInjector(new AbstractModule() {
 			@Override
 			protected void configure() {
 				IService service = mock(IService.class);
@@ -43,6 +46,12 @@ public class FooServletTest {
 				bind(IService.class).toInstance(service);
 			}
 		});
+
+		ServletContext cont = mock(ServletContext.class);
+		when(cont.getAttribute(Injector.class.getName())).thenReturn(injector);
+
+		config = mock(ServletConfig.class);
+		when(config.getServletContext()).thenReturn(cont);
 	}
 
 	@Before
@@ -53,7 +62,8 @@ public class FooServletTest {
 
 	@Test
 	public void trueが表示される() throws ServletException, IOException {
-		FooServlet servlet = injector.getInstance(FooServlet.class);
+		FooServlet servlet = new FooServlet();
+		servlet.init(config);
 		servlet.doGet(req, res);
 		assertEquals(
 				Files.readAllLines(Paths.get(output), StandardCharsets.UTF_8).get(0),

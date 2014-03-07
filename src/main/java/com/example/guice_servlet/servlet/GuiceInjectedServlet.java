@@ -11,6 +11,7 @@ public abstract class GuiceInjectedServlet extends HttpServlet {
 
 	@Override
 	public void init(ServletConfig config) throws ServletException {
+		super.init(config);
 		Injector injector = (Injector) config.getServletContext().getAttribute(Injector.class.getName());
 		if (injector == null) {
 			throw new ServletException("Guice Injector not found");
