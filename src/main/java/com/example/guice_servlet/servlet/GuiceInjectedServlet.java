@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServlet;
 
 import com.google.inject.Injector;
 
-public class GuiceInjectedServlet extends HttpServlet {
+public abstract class GuiceInjectedServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	@Override
